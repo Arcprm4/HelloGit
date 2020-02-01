@@ -1,11 +1,10 @@
-import fractions
+import math
 import itertools
 import fractions
 import heapq
 import collections
 import bisect
 import sys
-import functools
 
 sys.setrecursionlimit(10**9)
 mod = 998244353
@@ -20,34 +19,22 @@ def I(): return int(sys.stdin.readline())
 def F(): return float(sys.stdin.readline())
 def S(): return input()
 
-def lcm_base(x,y):
-    return (x * y) // fractions.gcd(x, y)
-
-def lcm_list(numbers):
-    return functools.reduce(lcm_base, numbers, 1)
-
 n,m = LI()
-a = [int(i)//2 for i in LI()]
 
-def num_of_2(x):
-    c = 0
-    while x%2==0:
-        c+=1
-        x//=2
-    return c
+l = [False]*n
+c = [0]*n
+ans=0
+for i in range(m):
+    p,s = LS()
+    if s=="AC":
+        l[int(p)-1]=True
 
-a0 = num_of_2(a[0])
-if any([num_of_2(i) != a0 for i in a]):
-    print(0)
-else:
-    def lcm(x,y):
-        return x//fractions.gcd(x,y)*y
+    else:
+        if l[int(p)-1]==False:
+            c[int(p)-1]+=1
 
-    c = 1
-    for i in a:
-        c = lcm(c,i)
-        if c>=inf:
-            break
-    
-    ans = m//c
-    print((ans+1)//2)
+for i in range(n):
+    if l[i]:
+        ans+=c[i]
+
+print(l.count(True),ans)
